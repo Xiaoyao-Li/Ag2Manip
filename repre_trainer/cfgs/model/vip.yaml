@@ -1,0 +1,15 @@
+name: VIP
+data_type: rgb  #! optional list ['rgb', 'agentago'], which is important
+
+d_emb: 1024
+backbone_type: resnet50
+reward_type: sparse  # optional list: [sparse, dense]
+similarity_type: l2  # optional list: [l2, cosine]
+num_negatives: 3  # assert: num_negatives < ${task.dataset.bacth_size}
+
+learning_rate: 1e-4
+
+loss_weight:
+  gamma: 0.98
+  l1norm: 0.00001
+  l2norm: 0.00001

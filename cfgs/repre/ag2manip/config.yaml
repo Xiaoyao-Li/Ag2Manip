@@ -1,0 +1,11 @@
+type: "ag2manip"
+desc: "use R3M checkpoint pre-trained with epic-kitchen agent-agnostic dataset"
+
+model: AG2MANIP
+d_emb: 1024
+batchsize: 128
+
+backbone_type: resnet50
+similarity_type: l2
+
+ckpt_dir: repre_trainer/logs/ag2manip/ckpts

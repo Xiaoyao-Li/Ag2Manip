@@ -1,0 +1,37 @@
+# task: pose generation
+name: epic_kitchen
+lr: ${model.learning_rate}
+clip_grad: 0.0  # 0.0 means no clip
+eval_interval: 1
+eval_visualize: 100
+
+train:
+  batch_size: 64
+  num_workers: 8
+  num_epochs: 10000000
+  log_step: 100 ## orignal 100
+
+test:
+  epoch: null
+  batch_size: 8
+  num_workers: 0
+
+dataset:
+  name: EpicKitchen
+  desc: '[Epic Kitchen]'
+  model_type: ${model.name}
+  resolution_height: 256
+  resolution_width: 256
+  aug_window_size: 0.6
+  # data_type: rgb  
+  data_type: ${model.data_type}
+  item_type: ${model.name}
+  device: cuda
+  data_dir_local: ${path_to_your_dataset_folder}
+  data_dir_slurm:  null
+  # train_transforms: ['NumpyToTensor']
+  # test_transforms: ['NumpyToTensor']
+  # transform_cfg: {}
+
+visualizer:
+  visualize: false

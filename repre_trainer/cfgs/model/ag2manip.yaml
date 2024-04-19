@@ -1,0 +1,14 @@
+name: AG2MANIP
+data_type: rgb  #! optional list ['rgb', 'agentago'], which is important
+
+d_emb: 1024
+backbone_type: resnet50
+similarity_type: l2  # optional list: [l2, cosine]
+num_negatives: 3
+
+learning_rate: 1e-4
+
+loss_weight:
+  tcn: 1.0
+  l1norm: 0.00001
+  l2norm: 0.00001
