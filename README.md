@@ -22,11 +22,29 @@ by [Puhao Li](https://xiaoyao-li.github.io/)<sup> *</sup>, [Tengyu Liu](http://t
 Enhancing the ability of robotic systems to autonomously acquire novel manipulation skills is vital for applications ranging from assembly lines to service robots. Existing methods (*e.g.*, VIP, R3M) rely on learning a generalized representation for manipulation tasks but overlook (i) the domain gap between distinct embodiments and (ii) the sparseness of successful task trajectories within the embodiment-specific action space, leading to misaligned and ambiguous task representations with inferior learning efficiency. Our work addresses the above challenges by introducing **Ag2Manip** (<ins>Ag</ins>ent-<ins>Ag</ins>nostic representations for <ins>Manip</ins>ulation) for learning novel manipulation skills. Our approach encompasses two principal innovations: (i) a novel agent-agnostic visual representation trained on human manipulation videos with embodiments masked to ensure generalizability, and (ii) an agent-agnostic action representation that abstracts the robot’s kinematic chain into an agent proxy with a universally applicable action space to focus on the core interaction between the end-effector and the object. Through our experiments, Ag2Manip demonstrates remarkable improvements across a diverse array of manipulation tasks without necessitating domain-specific demonstrations, substantiating **a significant 325% improvement** in average success rate across 24 tasks from FrankaKitchen, ManiSkill, and PartManip. Further ablation studies underscore the critical role of both representations in achieving such improvements.
 
 
+## Installation
+1. Create a new `conda` environment and activate it.
+    ```bash
+    conda create -n ag2manip python=3.8
+    conda activate ag2manip
+    ```
+
+2. Install dependent libraries with `pip`.
+    ```bash
+    pip install torch==1.13.1+cu117 torchvision==0.14.1+cu117 --extra-index-url https://download.pytorch.org/whl/cu117
+    pip install -r requirements.txt
+    ```
+    - The code is tested on `pytorch1.13.1` and `cuda11.7`, modify the installation command to install [other versions](https://pytorch.org/get-started/previous-versions/) of `pytorch`.
+
+3. Install [Isaac Gym](https://developer.nvidia.com/isaac-gym) by following the official documentation.
+
+
 ## Citation
 If you find this work is helpful, please consider citing us as
 ```
 
 ```
+
 
 ## Contact
 If you have any questions about this work, feel free to contact Puhao Li at puhaoli01@gmail.com.
