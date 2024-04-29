@@ -39,10 +39,18 @@ Enhancing the ability of robotic systems to autonomously acquire novel manipulat
 3. Install [Isaac Gym](https://developer.nvidia.com/isaac-gym) by following the official documentation.
 
 
+###  Assets Preparation
+To access the `assets` for the simulated environments and the pre-trained ag2manip visual representation model checkpoints, please head to [Google Drive](https://drive.google.com/drive/folders/1UTjoDfYpgClHg2e1vo6KHC4EPcjC7CIo?usp=drive_link).
+
 ## Citation
 If you find this work is helpful, please consider citing us as
 ```
-
+@article{li2024ag2manip,
+  title={Ag2Manip: Learning Novel Manipulation Skills with Agent-Agnostic Visual and Action Representations},
+  author={Li, Puhao and Liu, Tengyu and Li, Yuyang and Han, Muzhi and Geng, Haoran and Wang, Shu and Zhu, Yixin and Zhu, Song-Chun and Huang, Siyuan},
+  journal={arXiv preprint arXiv:2404.17521},
+  year={2024}
+}
 ```
 
 
