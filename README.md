@@ -4,13 +4,13 @@ Code Repository for **Ag2Manip: Learning Novel Manipulation Skills with Agent-Ag
 by [Puhao Li](https://xiaoyao-li.github.io/)<sup> *</sup>, [Tengyu Liu](http://tengyu.ai/)<sup> *</sup>, [Yuyang Li](https://blog.aidenli.net/), [Muzhi Han](https://sites.google.com/view/muzhihan/home), [Haoran Geng](https://geng-haoran.github.io/), [Shu Wang](https://github.com/AssassinWS), [Yixin Zhu](https://yzhu.io/), [Song-Chun Zhu](https://zhusongchun.net/), [Siyuan Huang](https://siyuanhuang.com/)
 
 <p align="center">
-    <a href='.'>
-      <img src='https://img.shields.io/badge/Paper-arXiv-green?style=plastic&logo=arXiv&logoColor=green' alt='Paper arXiv'>
-    </a>
-    <a href='.'>
+    <a href='https://xiaoyao-li.github.io/research/ag2manip/pdf/ag2manip_compressed.pdf'>
       <img src='https://img.shields.io/badge/Paper-PDF-red?style=plastic&logo=adobeacrobatreader&logoColor=red' alt='Paper PDF'>
     </a>
-    <a href='.'>
+    <a href='https://arxiv.org/abs/2404.17521'>
+      <img src='https://img.shields.io/badge/Paper-arXiv-green?style=plastic&logo=arXiv&logoColor=green' alt='Paper arXiv'>
+    </a>
+    <a href='https://xiaoyao-li.github.io/research/ag2manip/'>
       <img src='https://img.shields.io/badge/Project-Page-blue?style=plastic&logo=Google%20chrome&logoColor=blue' alt='Project Page'>
     </a>
 </p>
