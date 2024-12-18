@@ -65,23 +65,23 @@ python train.py
     --save_video: store_true, rather save executed video.
     --agentago: store_true, make video agent-agnostic.
     --seed: int, global random seed(default: 42).
-    --save_traj, store_true, run trained policy, no training, save the test result.
-    --task, str, specific the task in the environment (args.env) to run.
-    --camera, str, specific the camera sensor in the environment to run.
-    --disable_wandb, store_true, disable wandb logging.
-    --debug_vis, store_true, enable debug visualization.
-    --randomize, store_true, apply env reset randomization.
-    --test, store_true, run trained policy, no training.
-    --play, store_true, run trained policy, the same as test, can be used only by rl_games RL library.
-    --resume, int, resume training or start testing from a checkpoint.
-    --checkpoint, str, path to the saved weights, only for rl_games RL library.
-    --headless, store_true, force display off at all times.
-    --logdir, str, log path.
-    --num_envs, int, number of environments to create - override config file.
-    --episode_length, int, episode length, by default is read from yaml config.
-    --seed, int, random seed.
-    --algo, str, choose an RL algorithm.
-    --model_dir, str, choose a model dir.
+    --save_traj: store_true, run trained policy, no training, save the test result.
+    --task: str, specific the task in the environment (args.env) to run.
+    --camera: str, specific the camera sensor in the environment to run.
+    --disable_wandb: store_true, disable wandb logging.
+    --debug_vis: store_true, enable debug visualization.
+    --randomize: store_true, apply env reset randomization.
+    --test: store_true, run trained policy, no training.
+    --play: store_true, run trained policy, the same as test, can be used only by rl_games RL library.
+    --resume: int, resume training or start testing from a checkpoint.
+    --checkpoint: str, path to the saved weights, only for rl_games RL library.
+    --headless: store_true, force display off at all times.
+    --logdir: str, log path.
+    --num_envs: int, number of environments to create - override config file.
+    --episode_length: int, episode length, by default is read from yaml config.
+    --seed: int, random seed.
+    --algo: str, choose an RL algorithm.
+    --model_dir: str, choose a model dir.
 ```
 
 For example, train a manipulation task `task_name` from `benchmark_name` (frankakitchen, partmanip, maniskill) with our method `ag2manip` in IsaacGym with the following command:
