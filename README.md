@@ -22,6 +22,9 @@ by [Puhao Li](https://xiaoyao-li.github.io/)<sup> *</sup>, [Tengyu Liu](http://t
 Enhancing the ability of robotic systems to autonomously acquire novel manipulation skills is vital for applications ranging from assembly lines to service robots. Existing methods (*e.g.*, VIP, R3M) rely on learning a generalized representation for manipulation tasks but overlook (i) the domain gap between distinct embodiments and (ii) the sparseness of successful task trajectories within the embodiment-specific action space, leading to misaligned and ambiguous task representations with inferior learning efficiency. Our work addresses the above challenges by introducing **Ag2Manip** (<ins>Ag</ins>ent-<ins>Ag</ins>nostic representations for <ins>Manip</ins>ulation) for learning novel manipulation skills. Our approach encompasses two principal innovations: (i) a novel agent-agnostic visual representation trained on human manipulation videos with embodiments masked to ensure generalizability, and (ii) an agent-agnostic action representation that abstracts the robot’s kinematic chain into an agent proxy with a universally applicable action space to focus on the core interaction between the end-effector and the object. Through our experiments, Ag2Manip demonstrates remarkable improvements across a diverse array of manipulation tasks without necessitating domain-specific demonstrations, substantiating **a significant 325% improvement** in average success rate across 24 tasks from FrankaKitchen, ManiSkill, and PartManip. Further ablation studies underscore the critical role of both representations in achieving such improvements.
 
 
+## Pipeline
+We first process a human demonstration dataset by masking and inpainting the areas occupied by human. Then we train an agent-agnostic visual representation on this dataset. We harness RL to learn manipulation policies in an agent-agnostic action space that abstracts the end-effector into an agent proxy, with a novel reward function emerging from our agent-agnostic visual representation. Lastly, the trajectory devised for the proxy agent is adapted to the robot through Inverse Kinematics.
+
 ## Installation
 1. Create a new `conda` environment and activate it.
     ```bash
@@ -38,9 +41,76 @@ Enhancing the ability of robotic systems to autonomously acquire novel manipulat
 
 3. Install [Isaac Gym](https://developer.nvidia.com/isaac-gym) by following the official documentation.
 
+## Data preparation
+We choose [Epic-Kitchen](https://epic-kitchens.github.io/2024) as the human demonstration dataset. First, segment the human body from each frame using the [ODISE](https://github.com/NVlabs/ODISE) algorithm. Then employ a video inpainting model, [E2FGVI](https://github.com/MCG-NKU/E2FGVI), to fill in the areas previously occupied by the human.
 
-###  Assets Preparation
-To access the `assets` for the simulated environments and the pre-trained ag2manip visual representation model checkpoints, please head to [Google Drive](https://drive.google.com/drive/folders/1UTjoDfYpgClHg2e1vo6KHC4EPcjC7CIo?usp=drive_link).
+###  IsaacGym Assets
+To access the `assets` for the simulated environments, please head to [Google Drive](https://drive.google.com/drive/folders/1UTjoDfYpgClHg2e1vo6KHC4EPcjC7CIo?usp=drive_link).
+
+## Usage
+### Train Visual Representation
+1. Train our visual representation model on EPIC-KITCHEN dataset:
+   - ``` bash
+     cd repre_trainer
+   - Run `train_ddp.py` to train our model on multiple GPUs in parallel, or run `train.py` to train on a single GPU.
+2. Specify your model save path by modifying `exp_name` in `repre_trainer/cfgs/default.yml`.
+3. You can access the pre-trained ag2manip visual representation model checkpoints [here](https://drive.google.com/drive/folders/1UTjoDfYpgClHg2e1vo6KHC4EPcjC7CIo?usp=drive_link).
+
+### Train Manipulation Skills with a Proxy Agent
+```bash
+python train.py
+    --plan: store_true, run transfered trajectory, no training \& planning.
+    --traj_path: str, dummy trajectory path for planning.
+    --save_goal: store_true, rather save goal image.
+    --save_video: store_true, rather save executed video.
+    --agentago: store_true, make video agent-agnostic.
+    --lw_recon: float, weight of reconstruction loss. 
+    --lw_kld: float, weight of kl-divergence loss.
+    --ann_temp: float, rising tempreture of 'lw_kld'.
+    --ann_per_epochs: int, every 'ann_per_epochs' epochs apply 'ann_temp' on 'lw_kld'.
+    --disable_shadowhand: store_ture, removing shadowhand grasping data, let shadowhand unseen in training.
+    --disable_allegro: store_ture, removing allegro grasping data.
+    --disable_robotiq_3finger: store_ture, removing robotiq-3f grasping data.
+    --disable_barrett: store_ture, removing barrett grasping data.
+    --disable_ezgripper: store_ture, removing ezgripper grasping data.
+    --seed: int, global random seed(default: 42).
+    --save_traj, store_true, run trained policy, no training, save the test result.
+    --task, str, specific the task in the environment (args.env) to run.
+    --camera, str, specific the camera sensor in the environment to run.
+    --disable_wandb, store_true, disable wandb logging.
+    --debug_vis, store_true, enable debug visualization.
+    --randomize, store_true, apply env reset randomization.
+    --test, store_true, run trained policy, no training.
+    --play, store_true, run trained policy, the same as test, can be used only by rl_games RL library.
+    --resume, int, resume training or start testing from a checkpoint.
+    --checkpoint, str, path to the saved weights, only for rl_games RL library.
+    --headless, store_true, force display off at all times.
+    --logdir, str, log path.
+    --num_envs, int, number of environments to create - override config file.
+    --episode_length, int, episode length, by default is read from yaml config.
+    --seed, int, random seed.
+    --algo, str, choose an RL algorithm.
+    --model_dir, str, choose a model dir.
+```
+
+For example, train a manipulation task `task_name` from `benchmark_name` (frankakitchen, partmanip, maniskill) with our method `ag2manip` in IsaacGym with the following command:
+```bash
+python train.py --task=benchmark_name@task_name@ag2manip --algo=ppo --seed=42 --cfg_train=cfgs/algo/ppo/manipulation.yaml --disable_wandb --camera=default
+```
+The best policy will be saved as `model_best.pt` in `logs/ag2manip/task_name@default/ag2manip@ppo.42/`.
+   
+### Inference with a Proxy Agent
+Inference and save a trajectory generated by the trained policy `logs/ag2manip/task_name@default/ag2manip@ppo.42/model_best.pt`:
+```bash
+python train.py --task=benchmark_name@task_name@ag2manip --model_dir=logs/ag2manip/task_name@default/ag2manip@ppo.42/model_best.pt --test --save_traj --algo=ppo --cfg_train=cfgs/algo/ppo/manipulation.yaml --camera=default --seed=0 --disable_wandb
+```
+The trajectory will be saved as `logs/ag2manip/task_name@default/ag2manip@ppo.42/absres_best.pkl`.
+
+### Plan with a Franka Robot Arm
+Plan with a franka robot arm using the saved trajectory:
+```bash
+python plan.py --task=benchmark_name@task_name@ag2manip --traj_path=logs/ag2manip/task_name@default/ag2manip@ppo.42/absres_best.pkl --pipeline=cpu --algo=ppo --cfg_train=cfgs/algo/ppo/manipulation.yaml --disable_wandb --camera=default
+```
 
 ## Citation
 If you find this work is helpful, please consider citing us as
