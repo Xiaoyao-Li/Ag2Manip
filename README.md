@@ -54,7 +54,7 @@ To access the `assets` for the simulated environments, please head to [Google Dr
      cd repre_trainer
    - Run `train_ddp.py` to train our model on multiple GPUs in parallel, or run `train.py` to train on a single GPU.
 2. Specify your model save path by modifying `exp_name` in `repre_trainer/cfgs/default.yml`.
-3. You can access the pre-trained ag2manip visual representation model checkpoints [here](https://drive.google.com/drive/folders/1UTjoDfYpgClHg2e1vo6KHC4EPcjC7CIo?usp=drive_link).
+3. You can access the pre-trained `ag2manip` visual representation model checkpoints [here](https://drive.google.com/drive/folders/1UTjoDfYpgClHg2e1vo6KHC4EPcjC7CIo?usp=drive_link).
 
 ### Train Manipulation Skills with a Proxy Agent
 ```bash
