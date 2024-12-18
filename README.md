@@ -59,7 +59,7 @@ To access the `assets` for the simulated environments, please head to [Google Dr
 ### Train Manipulation Skills with a Proxy Agent
 ```bash
 python train.py
-    --plan: store_true, run transfered trajectory, no training \& planning.
+    --plan: store_true, run transfered trajectory, no training.
     --traj_path: str, dummy trajectory path for planning.
     --save_goal: store_true, rather save goal image.
     --save_video: store_true, rather save executed video.
